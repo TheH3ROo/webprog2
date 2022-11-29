@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:soap-enc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:soap-env="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://localhost/web2/soap/teszt/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://localhost/web2/soap/teszt/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://localhost/web2/soap/teszt/">
+      <xsd:complexType name="Huzasok">
+        <xsd:all>
+          <xsd:element name="hibakod" type="xsd:int" minOccurs="0" maxOccurs="1"/>
+          <xsd:element name="uzenet" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+          <xsd:element name="huzasok" type="tns:HuzasArray" minOccurs="0" maxOccurs="1"/>
+        </xsd:all>
+      </xsd:complexType>
+      <xsd:complexType name="Huzas">
+        <xsd:all>
+          <xsd:element name="ev" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+          <xsd:element name="het" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+        </xsd:all>
+      </xsd:complexType>
+      <xsd:complexType name="Huzottak">
+        <xsd:all>
+          <xsd:element name="hibakod" type="xsd:int" minOccurs="0" maxOccurs="1"/>
+          <xsd:element name="uzenet" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+          <xsd:element name="huzasid" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+          <xsd:element name="szam" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+          <xsd:element name="huzottak" type="tns:HuzottArray" minOccurs="0" maxOccurs="1"/>
+        </xsd:all>
+      </xsd:complexType>
+      <xsd:complexType name="Huzott">
+        <xsd:all>
+          <xsd:element name="huzasid" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+          <xsd:element name="szam" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+        </xsd:all>
+      </xsd:complexType>
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="gethuzasokRequest"/>
+  <wsdl:message name="gethuzasokResponse">
+    <wsdl:part name="gethuzasokReturn" type="tns:Huzasok"/>
+  </wsdl:message>
+  <wsdl:message name="gethuzottakRequest">
+    <wsdl:part name="id" type="xsd:string"/>
+  </wsdl:message>
+  <wsdl:message name="gethuzottakResponse">
+    <wsdl:part name="gethuzottakReturn" type="tns:Huzottak"/>
+  </wsdl:message>
+  <wsdl:portType name="SorsolasokPortType">
+    <wsdl:operation name="gethuzasok">
+      <wsdl:documentation/>
+      <wsdl:input message="tns:gethuzasokRequest"/>
+      <wsdl:output message="tns:gethuzasokResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="gethuzottak">
+      <wsdl:documentation/>
+      <wsdl:input message="tns:gethuzottakRequest"/>
+      <wsdl:output message="tns:gethuzottakResponse"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="SorsolasokBinding" type="tns:SorsolasokPortType">
+    <soap-env:binding xmlns="http://schemas.xmlsoap.org/wsdl/soap/" style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="gethuzasok">
+      <soap-env:operation xmlns="http://schemas.xmlsoap.org/wsdl/soap/" soapAction="http://localhost/web2/soap/teszt/szerver.php?method=gethuzasok" style="rpc"/>
+      <wsdl:input>
+        <soap-env:body xmlns="http://schemas.xmlsoap.org/wsdl/soap/" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap-env:body xmlns="http://schemas.xmlsoap.org/wsdl/soap/" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="gethuzottak">
+      <soap-env:operation xmlns="http://schemas.xmlsoap.org/wsdl/soap/" soapAction="http://localhost/web2/soap/teszt/szerver.php?method=gethuzottak" style="rpc"/>
+      <wsdl:input>
+        <soap-env:body xmlns="http://schemas.xmlsoap.org/wsdl/soap/" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap-env:body xmlns="http://schemas.xmlsoap.org/wsdl/soap/" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="Sorsolasok">
+    <wsdl:documentation/>
+    <wsdl:port name="SorsolasokPort" binding="tns:SorsolasokBinding">
+      <soap-env:address location="http://localhost/web2/soap/teszt/szerver.php"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
